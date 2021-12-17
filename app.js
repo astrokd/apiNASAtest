@@ -21,7 +21,10 @@ https.get(`${apiURL}?start_date=${endDate}&end_date=${startDate}&api_key=${apiKe
     const obj = JSON.parse(data)
     const jsondata = JSON.stringify(obj, null, 4)
     fs.writeFileSync(`NEO_${startDate}_${dateNow}`,jsondata)
-    console.log(`Data written to NEO file for ${startDate}`);
+    const neoCount = obj.element_count
+    const neoArray = obj.near_earth_objects
+
+    console.log(`Data written to NEO file for ${startDate} contains ${neoCount} objects`);
   })
 })
 .on('error', (error) => {
