@@ -22,7 +22,21 @@ https.get(`${apiURL}?start_date=${endDate}&end_date=${startDate}&api_key=${apiKe
     const jsondata = JSON.stringify(obj, null, 4)
     fs.writeFileSync(`NEO_${startDate}_${dateNow}`,jsondata)
     const neoCount = obj.element_count
-    const neoArray = obj.near_earth_objects
+    const neoArray = Object.values(obj.near_earth_objects)[0] 
+
+    neoArray.map(neo => {
+      const name = neo.name
+      const est_diamin = neo.estimated_diameter.kilometers.estimated_diameter_min
+      const est_diamax = neo.estimated_diameter.kilometers.estimated_diameter_max
+      const isHazard = neo.is_potentially_hazardous_asteroid
+      // const approach_date = neo.close_approach_data[0].close_approach_date_full
+      // const rel_vel = neo.close_approach_data[0].relative_velocity.kilometers_per_second
+      const miss_dist = neo.close_approach_data[0].miss_distance.kilometers
+      // const orb_body = neo.close_approach_data[0].orbiting_body
+      // const isSentry = neo.is_sentry_object
+
+      console.log(`neo name: ${name}, est dia(km): ${est_diamin} / ${est_diamax}, Hazard: ${isHazard}, miss distance(km): ${miss_dist}`)
+    })
 
     console.log(`Data written to NEO file for ${startDate} contains ${neoCount} objects`);
   })
